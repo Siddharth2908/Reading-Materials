@@ -1,3 +1,4 @@
-•https://developers.google.com/machine-learning/crash-course/ml-intro 
-•https://www.tensorflow.org/tutorials/ 
-•https://www.kaggle.com/dansbecker/how-models-work 
+â€¢https://developers.google.com/machine-learning/crash-course/ml-intro 
+â€¢https://www.tensorflow.org/tutorials/ 
+â€¢https://www.kaggle.com/dansbecker/how-models-work 
+http://www.iapr-tc11.org/mediawiki/index.php/Datasets_List
