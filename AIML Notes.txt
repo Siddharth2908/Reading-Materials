@@ -1,0 +1,503 @@
+Deep Learning
+
+When to Use ML and When to use DL
+	1. When there is low data - Go for ML 
+	2. When there is good amount of data - Go for FF NN
+	3. When there is large amount of data - Go for DL
+
+
+	1. No of Xs determines no of weights to be added in NN
+	2. If Y is regression, then output layer should not have activation function
+	3. A neuron is a combination of weight + bias + Activation function
+	4. Activation function can be sigmoid, softmax, tanh and ReLU
+	5. Loss is a function of output
+	6. Output is a function of weights and biases
+	7. Gradient is a partial derivative of a function denotes what is rate of change
+	8. NN is a series of linear functions networked together
+	9. While adjusting the weights, older weight value is used for the previous layer
+	10. Property of an Activation function : It should always be differentiable i.e gradient can be calculated
+	11. Weights are impacted by - Next layer's weight, Loss function, activation function and the inputs from previous layer
+	12. Weights of previous layers uses "Chain Rule" as it is a derivative of nested functions
+	13. Weights updated based on the loss calculated from output to input and hence it is called back propagation 
+	14. Tensorflow 2.0 Eager execution becomes default settings - i.e NN at a node level execution is possible
+	15. Weights initialization is also a hyper parameters 
+	16. Vanishing gradient will result in weights not updated and hence learning will not be good
+	17. Exploding gradient will result in loss NaN
+	18. When the network is stuck in the same training error rate, it is an indicative that the weights are not getting adjusted
+	19. The variance of the random weights to be in the range of Xavier initialization = SQRT(2/Size of previous layer)
+	20. He Initialization = SQRT(2/Size of previous layer + Size of the current layer)
+	21. NN creates multiple linear equations and with sigmoids takes care of the non-linearity of the problem
+
+Activation Functions
+	1. Controls Neuron's output and Neuron's Learning
+	2. Sigmoid will result in dead neurons due to vanishing gradient problem
+	3. Sigmoid - Only positive values to the next layer
+	4. Sigmoid - e^y is computationally intensive
+	5. Tanh - Hyperbolic tangent : Vanishing gradient, compute expensive and Zero-centered
+	6. ReLU : Rectified Linear Unit : max(0,x)
+		a. Does not kill gradient x>0
+		b. Compute inexpensive
+		c. Convergers faster
+		d. No Zero centered
+	7. Leaky ReLU : max(0.01x,x)
+		a. Does not kill gradient
+		b. Compute inexpensive
+		c. Converges faster
+	8. ReLU6 :
+		a. Flatten the gradient once it reaches 6
+		b. This can be used to avoid high activation
+
+Loss Functions :
+
+	1. Define a loss function that quantifies the unhappiness with the scores across the training data
+	2. Hinge Loss:
+		a. Sum of Max(0,Score of not Y - Score of correct Y+1)
+		b. Min loss is 0 and Max loss can be Infinity
+		c. If S is approx 0, then loss will be 1
+	3. Add regularization function to prevent overfitting to the loss function
+
+Learning Rate:
+	1. If training error is going up on each iteration indicates high learning rate which resulted in missing local minima
+	2. Low learning rate will impact the time to reach local minima
+	3. Learning rate decay - can be used to decrease the learning rate so that the model learns quickly at the same time doesn’t miss local minima
+
+Regularization:
+Dropout :
+	1. Dropout will help avoiding overfitting
+	2. Dropout will set the output to 0 from a neuron thus randomizing the model
+	3. During back propagation the dropout will not impact the weights
+	4. Dropout will zeroise output randomly for each iteration thus preventing overfitting
+	
+Batch Normalization:
+	1. Normalize the distribution of the data before every layer
+	2. Predominantly used in CNN
+	3. Use batch norm if the data is not normalized outside the network
+	4. Network will learn the mean and biases & what is the factor to scale and shift
+
+** Shape of the input data is very important **
+**Number of training samples >> Number of Parameters ie. Degrees of freedom in NN is number of parameters+bias**
+** Adam and ReLU / LeakyReLU combination converges faster**
+** For image processing 300dpi+ is suggested**
+** Convolution is an operation in which a kernel is slides over an image**
+** Learn Backprop using Numpy**
+**Odd number kernels work well**
+**NN are non-linear in terms of weights**
+**Cross Entropy**
+**Model Success is based on the design choices of hyper parameters**
+**Before Model Deployment - Model Pruning and Model Quantization will have to happen. This should be dealt carefully**
+** HOG**
+
+
+Optimizers:
+	1. All Optimizers assumes the surface of loss functions is Convex functions
+	2. Adam performs better than any optimizer in non-convex functions
+
+Stochastic Gradient Descent (SGD):
+	1. Loss function may have local minima or saddle points 
+	2. SGD may get stuck in local minima easily
+	3. Gradient vanishes at saddle points
+	4. Zero gradient not possible
+	5. Use "Momentum" to increase the speed of the movement of gradient by adding a portion of gradient from previous step
+	6. High Momentum may result in Gradient Explode. This will have to be adjusted if NaN is encountered
+	7. Nesterove Momentum can be used to adjust the gradient based on nearing local minima
+	8. The learning rate in SGD is same as it was set during hyper parameter tuning
+
+AdaGrad:
+	1. Adaptive Gradient will change the learning rate for each weight
+	2. Add squared gradient to the past gradients, When the gradient is high, the learning rate goes down and vice versa
+	3. The effect is similar to SGD with Nesterove Momentum
+	4. The gradient always increase due to squaring effect, i.e Learning rate always decays
+	5. Epsilon - a small positive value is used to take away a zero denominator
+
+AdaDelta:
+	1. Adaptive Delta Gradient keeps decaying mean for all past squared gradients
+	2. Rest remains same as AdaGrad
+
+Adam:
+	1. Adaptive Moment Estimation keeps track of past squared gradients and keeps track of past gradients
+	2. Calculate the gradient, difference between first moment - past gradients, Second moment - past squared gradients, bias corrected first moment, Bias corrected second moment and adjust new weight
+	3. Adam is a combination of both Speeding up the momentum and slow down simultaneously
+	
+
+	
+
+List of hyper Paramerter in NN
+
+	1. Initialization point - Seed value
+	2. Loss function
+	3. Activation function
+	4. Starting Learning rate
+	5. Weights per feature - How many weights are used : Dropouts
+	6. Batch Size
+	7. Optimizer
+	8. Epochs
+	9. Bias values
+	10. # of hidden layers
+	11. # of neurons in each layer
+	12. Learning rate decay
+	13. Regularization - batch norm 
+	14. For CNN - Padding
+	15. For CNN - Stride
+	16. For CNN - CNN Layers
+	17. For CNN - Max Pooling layers
+	18. For CNN - Kernel Size
+	19. For CNN - # of Kernels
+
+Convolution Neural Network
+
+	1. Rate of change of intensity determines the object image
+	2. Pixel values only intensity and not color
+	3. Color space is a combination 3 channels - RGB and each channels has pixels and each pixels have intensity
+	4. Color space for human is RGB and ranges from 0 to 255 i.e 2^8. 0 is black and 255 is white
+	5. Formats of the image impacts accuracy however not the model
+	6. Two important library - PIL and OpenCV : PIL for images and OpenCV for Images + Videos
+	7. Image axis start from top left first row
+	8. In OpenCV RGB is represented as BGR
+	9. Each pixel value is a probability of an underlying distribution on what the pixel value can be
+	10. Color spaces
+		a. RGB - Red, Green, Blue
+		b. LAB - Luminosity - A Star - B Star
+		c. HSV - Used in Medical Images
+	11. Every image conversion entails a loss in information
+	12. Filtering
+		a. It’s a process by which one part of the image is accentuated
+		b. It can be used for noise reduction
+		c. Gaussian Smoothing used to reduce the signal to noise ratio of an image - Fast Fourier Transformation followed by Laplace Gaussian transformation
+		d. Smoothing by Averaging
+		e. SURF/SIFT - Scale invariant Feature Transform : Used for production image smoothing
+		f. KALMAN filter - Used for production image smoothing of noise in data
+	13. Image histogram
+		a. GIMP is a good library
+	14. Challenges in image recognition
+		a. Illumination - Lighting effect
+		b. Deformation - Spatial difference
+		c. Occlusion - Image covered behind another object
+		d. Clutter - Unclear or dull image
+		e. Intra-class variations - different breed, different models etc
+
+Building blocks of Computer Vision
+	1. Classification 
+	2. Detection - Where in the image is an object
+	3. Spatial Localization - Is the dog above or below the horse
+	4. Segmentation - Pixel level segmentation
+
+Why Convolution for Images
+	1. Complexity of what the picture contains cannot be determined just by looking at pixels or pixels relationship
+	2. The information in pixels are too many to handle by normal ML algorithms
+	3. During image processing, pixel values will have to abstracted over other values and with relationship to be evaluated
+	4. Occlusion, deformity, lighting will impact pixel based prediction
+	5. Images are spatially related i.e cannot change the pixel columns as it spoils the image quality
+	6. Closer pixels have very high spatial relationship
+	7. Due to Spatial correlation is local in image data, NN will create lot of useless parameters and CNN will mitigate the issue
+	8. Convolution will give importance to local connections
+	9. Cross correlation can also be used to achieve point 8 however, they are not associative and hence convolution
+	10. Convolution layer, Max Pool are used to create one vector which can be fed forward into a Neural Net
+
+
+Convolution and Cross-correlation
+	1. Cross correlation is measured to detect similarities between two signals over a period of time
+	2. Convolution is used to transform into linear filters
+
+Kernel : Linear Transformation response modifier. Change of rate of gradient to make the learn the kernel
+
+
+CNN Key points:
+
+	1. Every input and neuron in each layer are connected
+	2. Convolution Layer, Pooling Layer and Fully Connected Layer
+	3. When convolving, the kernel convolutes across all channels
+	4. Dim(Output) = Dim(Input) - Dim(Kernel) + 1
+	5. Convolution takes care of dimensionality reduction and thus there can be loss of information
+	6. Half padding can be used to reduce the rate at which the dimensionality reduction is done. Padding will also help to improve the importance of the edge column
+	7. Half padding with stride can be used to jump values to understand global features
+	8. Output size = (I-K+2Pad)/S + 1 : I - Input, K - Kernel, Pad - Padding, S - Stride
+	9. Non-stationary kernels are used in sequential models or RNNs. In CNN, stationary kernels are used
+	10. Kernels
+		a. Larger filter size captures long range relationship
+		b. Smaller filter size captures short range relationship
+		c. Kernels size impacts dimensions
+		d. Larger kernels will not capture very local relationship
+		e. Use multiple layers of 3 * 3 filters instead of 1 layer of 5 * 5 or 7 * 7 
+	11. Pooling
+		a. Pooling doesn’t change the depth of the convolution layer 
+		b. It introduces no parameters
+		c. It affects the length and width of the kernels
+		d. Max pooling results in lot of information loss within the kernel
+		e. This helps in capturing the pixel which has maximum response to the kernel for ex: vertical line kernel
+		f. Overlapping Max Pooling - Max pooling done with Convolution
+	12. Dilated Convolution 
+		a. Used to capture relationship over larger space
+		b. This is similar to stride however the difference is that it places a space between pixels in Kernels
+	13. Noise introduction
+		a. This will help the CNN to prepare for tougher data
+		b. This works similar to dropout
+	14. Training samples preferable is ~3000 / class
+		a. Use data augmentation
+		b. Use crafted features
+		c. Create CNN ++ models - Prob non sequential
+	15. Width and Depth of NN
+		a. Width - Number of Neurons in a layer : Width memorizes the training data well 
+		b. Depth - Number of layers : Going deep will create vanishing and exploding gradient
+		c. Universality Approximation Theorem
+		d. Time complexity of algorithm : Wider the network, longer it takes to execute
+
+	
+
+Basic CNN Architectures and Best Practices:
+
+	1. Model success depends on hyper parameters choices
+	2. Transfer learning - Filters in CNN understands higher levels of abstraction which is useful to transfer
+		a. Empirical rule : Conv layers - 3 is used to back prop and rest frozen
+		b. If the need to utilize is above 50% then create own architecture
+	3. http://yosinki.com/deepvis
+	4. Popular Models : ResNet + Inception (Refer PPT for Architecture Details)
+		a. AlexNet
+			i. AlexNet used Overlapping Max Pooling
+			ii. First architecture to use ReLU
+		b. VGGs
+			i. 3 * 3 Kernels are used
+			ii. Deeper than AlexNet
+			iii. Revolutionized - Small Filter Size & Large Filters
+		c. ResNet : Residuals Network
+			i. First model to use Skip Connection of 1 layer to avoid vanishing gradient problem
+		d. GoogLeNet / Inception (Inception V1)
+			i. 1 * 1 Convolution : Depth reduction happens like how Max Pooling impacts the width and Height
+			ii. Inception cell as a whole learns and retains the information which makes no incremental use of FC layer
+		e. ResNet
+			i. Residual blocks - skip connection
+			ii. Resnet handles vanishing gradient using skip connections
+		f. DenseNet
+	5. For any practical image problem, start with ImageNet weights and fine tune as required
+	6. RCNN can be used for object detection which can help in doing semantic segmentation
+	7. In Object detection, the loss function is IoU (Intersection of Union) 
+	8. Object detection does classification + regression
+	9. In Object segmentation - Use Mask R CNN : Segmentation does pixel level classification
+	
+Deep learning for NLP
+
+	1. Finding relationship between words using Semantic Relationship between words using Word2Vec
+	2. Word2Vec
+		a. Example : men and women are related the same way as King and queen
+		b. Verb tense, country capital, gender etc
+		c. Given a word, what are the nearby word(s) : Context, target pair , Find the prob given nearby words
+		d. Window size : determines how many nearby words to be considered on both size i.e 1 means 1 word on the left and 1 word on the right
+		e. Word2Vec embeddings
+	3. CBOW Model
+		a. Context words as input to the NN and predict the target word
+	4. Skip Gram model
+		a. Feed the target word in to the NN and predict all the context words
+		b. In practice - Skip Gram works better
+	5. Build a simple layer and train the model using a negative sample loss function and discard the output layer once the model is trained
+	6. The hidden layer will tell value for each word, which can help to determine relationship between words mathematically
+	7. Keras has a special layer called "Embedding" for word2vec model
+	8. Transfer learning is used to transfer the math value into exiting data set so training effort is avoided
+	9. Long Short Term Memory
+		a. Two memory state - Hidden State and Cell State
+		b. OUTPUT -->> FORGET--->>INPUT-->>OUTPUT
+	10. Variant of LSTM is GRU - Gated Recurrent Units
+		a. Cell state removed
+		b. Input + Forget becomes Update gate
+	11. Attention Models
+	
+		
+
+Transfer Learning
+	1. Similar domain, different task
+	2. Different domain, same task
+	3. Different domain, different task
+	4. Ali Ghodsi - Variational Autoencoders
+	5. Strategy
+		a. Use pre trained architecture and train the entire model
+		b. Train some layers and leave the others frozen
+		c. Freeze the convolution base
+	6. During transfer learning and applying any strategy, consider overfit, underfit, variance error and bias error to adjust how many layers to be frozen and how many to train
+	7. Histogram of Oriented Gradients (HOG)
+
+Advanced Computer Vision
+
+	1. Object detection - Classification + Localization 
+		a. Explainable AI - Highlight objects during a classification problem
+	2. Semantic Segmentation
+		a. Pixel level classification to determine whether a particular pixel belongs to a class or not
+		b. Draw contour around the detected object
+	3. Face Recognition
+	4. Instance Segmentation
+		a. Segment individual items / instance within an image
+
+** Traditional CNN architectures are for classification and for object detection is a regression**
+** Traditional CNN takes standard input shape**
+** Due to above reasons, traditional architectures cannot be applied directly as-is**
+**Multi-task loss - Regression loss and Classification loss**
+**Weight function to the loss function - Which one is more important**
+**Region proposal method is "selective search"**
+**Object detections Conv architecture can be any of the basic ones**
+**Object detections - Input critical parameters - X1 coordinate of the image, Y1 coordinate of the image, Image shape A x B. This will have to reshaped and is critical pre-processing step**
+**First token prediction of a decoder is very critical, if its wrong then convergence may take very long time or never happen. To counter them, teacher forcing technique can be used**
+**ONNX**
+
+R-CNN
+	1. Input image
+	2. Extract region proposals using selective search (~2k)
+	3. Extracted region will then be passed onto individual Conv-nets
+
+Fast R-CNN
+	1. Input image
+	2. Imaged is passed as a whole to a conv net
+	3. Extract region proposals using selective search (~2k) from feature maps
+
+Faster R-CNN (Important basic network for Object Detection)
+	1. Regions are proposed through network itself and NO SELECTIVE SEARCH is used (Region Proposal Network)
+	2. Anchor boxes - auto creates region using Aspect Ratio and Size of the bounding box. Aspect Ratio - 1:1, 2:1,1:2 and Size - 128 * 128, 256*256,512*512
+	3. Faster R-CNN uses "Spatial Pooling" instead of Max pooling
+	4. This has 4 losses - Classification loss + Bounding box regression loss, Classification loss + Bounding box regression loss for region proposals
+
+YOLO
+	1. Uses only Anchor boxes
+	2. Network divides the image into an S x S grid, for each grid cell predicts B bounding boxes, confidence for those boses, and C class prob. These are encoded as an S x S x (B*5 + C) tensor
+	3. Each grid cell also predicts Conditional class prob 
+	4. Confidence score is calculated based on IoU and is learnt through back prop
+	5. Loss functions consists of 5 key components
+		a. Loss function for bounding box
+		b. Loss function for w, h
+		c. Loss function for Confidence Interval
+		d. Classification loss
+
+SSD
+	1. Similar to YOLO
+	2. Loss functions are Lconf, Lloc
+	3. 4 offsets values representing the bounding box in relation with the previous bounding box gotten using Anchor boxes
+
+
+Semantic Segmentation
+
+	1. This works as pixel level classification
+	2. This uses upsampling and downsampling - Encoder and decoder
+	3. Upsampling done in many ways
+		a. Replicate all values of Max pooled weights
+		b. Use once and rest '0s'
+		c. Argmax unpooling 
+	4. **Upsampling will have some information loss**
+	5. **Drop out and Activation function will have an impact on upsampling**
+	6. U-Net architecture for semantic segmentation
+	7. **Mask will have to be defined for semantic segmentation**
+	8. Separable convolutions are used to reduce the FLOPS
+		a. Spatial - Kernel weights should be linearly separable
+		b. Depth 
+			i. Depthwise convolution
+			ii. Point wise convolution
+
+
+Natural Language Processing using RNNs and LSTMs
+
+	1. Two types
+		a. Phoenetic analysis
+		b. Text analysis
+			i. Morphological Analysis
+			ii. Syntactic analysis - NLP
+			iii. Semantic Analysis - NLP
+			iv. Discourse Analysis- NLU
+	2. Language Modelling
+		a. Predict what word comes next
+	3. NN for NLP 
+		a. Word embeddings are done before feeding it forward into NN
+		b. No weights are being shared amongst the word embeddings i.e the relationship between embeddings and this was a major draw back in traditional FF NNs
+		c. RNN unrolled across time - BPTT : Back Propagation Through Time
+		d. Types of analysis possible on sequential data using RNN
+			i. One to One
+			ii. One to Many
+			iii. Many to One
+			iv. Many to Many
+		e. TBPTT
+	4. In RRN using "He" or "Xavier's" initialization of weights
+
+Attention Architecture
+	1. This captures the relationship between input variables of Encoder to the decoder
+	2. This helps the output explainable
+	3. This does not capture intra input or intra output relationship
+
+
+Transformer Architecture
+
+	1. Very powerful architecture as it works like attention based models which not only captures relationship between input and output + intra - Input & output relationship as well
+	2. BERT is the most useful transformer model
+	3. Key, Value and Query --->>> Key & Value relationship evaluated input & output , Query is output
+	
+
+
+
+NN is all about representational learning
+NN are good at solving complex problem but not robust i.e. small change will impact the models
+In practice, don’t use FCN while using CNN architectures instead use variants to SVM
+Preprocessing is still important for NNs as this will help NNs to converge faster
+Convolution operation used in CNN is not rotationally invariant but translationally invariant
+CNN cannot recognizes scale, rotational and view point invariance
+CNN has some amount of semantic relationships and hence its able to handle occlusions
+RNN is used as there might be relationship across time
+RNN handles shorter time sequence - <10
+RNN - LSTM handles longer time sequence - 10 to 75
+RNN - LSTM are typically bi-directional
+RNN - LSTM are typically used for Neural Machine Translation or Generative Models
+GRU - One variant of LSTM 
+
+Siamese Network
+
+	1. This network is used when there are no enough samples and to achieve one-shot learning
+	2. This can be used for Face recognition, Face Verification, Signature Verification, Script Verification
+	3. Siamese is based on one-shot learning
+	4. The two encodings act as a latent feature representation of the images
+	5. Fundamental reason to use NN - Enough samples are difficult
+	6. Properties of a kernel
+		a. Similarity metric
+		b. High value similar pairs of input
+		c. Low value for dissimilar inputs
+		d. Positive semi definite - This will ensure the eigen values are positive
+		e. Learning of Kernel is called metric learning
+			i. A metric is like a distance
+			ii. Inverse of similarity
+			iii. It is symmetric
+			iv. It follows triangle inequality
+			v. Want to learn a metric - semantic similarity
+	7. Triplet loss 
+	8. Similarity or distance is used between Anchor and Positive, Anchor and Negative
+	9. The samples are pushed as an input through stratified sampling
+
+Instance Segmentation
+
+	1. Region of Interest (RoI) align used for bilinear interpolation - Rounding off happens using the neighboring pixel value for a floating point RoI value!
+	2. Decouple Mask and Class prediction
+	3. Parallel object detction and mask generator
+	4. Upsampling approaches - Use of Index, Upsample in any one position of kernel or upsample basis pro rata
+	5. 4 key items - Bounding Boxes (B), Labels(L), Scores(S), Mask(M)
+
+	LRP
+	LSTM Viz
+	XGBoost vis
+
+	
+GANs
+
+	1. GANs have a generator vs discriminator 
+	2. Generator generates images and discriminator classify whether its match/non match
+	3. Generator is a deconv block and discriminator is Conv block
+
+Steps to build DCGAN
+
+Build Model
+	1. Generator using convolution transpose and noise as input
+	2. Discriminator with noise and real data as input
+	3. Adversial (Generator + Frozen Discriminator)
+
+Training Model
+	1. Step 1: Train discriminator using both real data and fake data from generator
+	2. Step 2: Train Advesarial network (indirectly training generator) using fake data only
+	3. Repeat 1 and 2
+
+
+	
+
+
+
+
+
+		
+		
